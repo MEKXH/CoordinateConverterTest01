@@ -8,8 +8,7 @@ namespace PingChaText0
 {
     class Matrix
     {
-        //矩阵打包成类，矩阵为m * n,直接调用
-
+        //矩阵打包成类，矩阵为m * n
         double[,] A;
         int m, n;
         string name;
