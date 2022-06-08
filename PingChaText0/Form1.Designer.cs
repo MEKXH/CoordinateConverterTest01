@@ -50,13 +50,6 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.导入区域坐标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导入CGCS2000坐标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,7 +72,15 @@
             this.Column19 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -177,7 +178,7 @@
             // 
             this.dataGridView3.AllowUserToAddRows = false;
             this.dataGridView3.AllowUserToDeleteRows = false;
-            this.dataGridView3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.dataGridView3.BackgroundColor = System.Drawing.SystemColors.Info;
             this.dataGridView3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView3.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -206,7 +207,7 @@
             dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView3.DefaultCellStyle = dataGridViewCellStyle9;
-            this.dataGridView3.Location = new System.Drawing.Point(1060, 27);
+            this.dataGridView3.Location = new System.Drawing.Point(12, 681);
             this.dataGridView3.Name = "dataGridView3";
             this.dataGridView3.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -219,43 +220,8 @@
             this.dataGridView3.RowHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dataGridView3.RowHeadersVisible = false;
             this.dataGridView3.RowTemplate.Height = 27;
-            this.dataGridView3.Size = new System.Drawing.Size(709, 77);
+            this.dataGridView3.Size = new System.Drawing.Size(1159, 77);
             this.dataGridView3.TabIndex = 4;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Tx";
-            this.Column5.Name = "Column5";
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Ty";
-            this.Column6.Name = "Column6";
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Tz";
-            this.Column7.Name = "Column7";
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "ωx";
-            this.Column8.Name = "Column8";
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "ωy";
-            this.Column9.Name = "Column9";
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "ωz";
-            this.Column10.Name = "Column10";
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "m";
-            this.Column11.Name = "Column11";
             // 
             // menuStrip1
             // 
@@ -268,7 +234,7 @@
             this.导出转换坐标ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1781, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1422, 28);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -289,8 +255,8 @@
             // 计算转换7参数ToolStripMenuItem
             // 
             this.计算转换7参数ToolStripMenuItem.Name = "计算转换7参数ToolStripMenuItem";
-            this.计算转换7参数ToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
-            this.计算转换7参数ToolStripMenuItem.Text = "计算转换7参数";
+            this.计算转换7参数ToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.计算转换7参数ToolStripMenuItem.Text = "计算转换7参数及中误差";
             this.计算转换7参数ToolStripMenuItem.Click += new System.EventHandler(this.计算转换7参数ToolStripMenuItem_Click);
             // 
             // 计算转换坐标ToolStripMenuItem
@@ -298,6 +264,7 @@
             this.计算转换坐标ToolStripMenuItem.Name = "计算转换坐标ToolStripMenuItem";
             this.计算转换坐标ToolStripMenuItem.Size = new System.Drawing.Size(111, 24);
             this.计算转换坐标ToolStripMenuItem.Text = "计算转换坐标";
+            this.计算转换坐标ToolStripMenuItem.Click += new System.EventHandler(this.计算转换坐标ToolStripMenuItem_Click);
             // 
             // 导出转换坐标ToolStripMenuItem
             // 
@@ -308,11 +275,10 @@
             // 
             // label1
             // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.ForeColor = System.Drawing.Color.OrangeRed;
-            this.label1.Location = new System.Drawing.Point(955, 28);
+            this.label1.Location = new System.Drawing.Point(525, 644);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 20);
             this.label1.TabIndex = 6;
@@ -323,7 +289,6 @@
             // 
             this.dataGridView4.AllowUserToAddRows = false;
             this.dataGridView4.AllowUserToDeleteRows = false;
-            this.dataGridView4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView4.BackgroundColor = System.Drawing.SystemColors.Info;
             this.dataGridView4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView4.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -349,7 +314,7 @@
             dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView4.DefaultCellStyle = dataGridViewCellStyle12;
-            this.dataGridView4.Location = new System.Drawing.Point(1362, 164);
+            this.dataGridView4.Location = new System.Drawing.Point(1003, 65);
             this.dataGridView4.Name = "dataGridView4";
             dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
@@ -361,7 +326,7 @@
             this.dataGridView4.RowHeadersDefaultCellStyle = dataGridViewCellStyle13;
             this.dataGridView4.RowHeadersVisible = false;
             this.dataGridView4.RowTemplate.Height = 27;
-            this.dataGridView4.Size = new System.Drawing.Size(407, 101);
+            this.dataGridView4.Size = new System.Drawing.Size(407, 364);
             this.dataGridView4.TabIndex = 7;
             // 
             // Column12
@@ -400,11 +365,10 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label2.ForeColor = System.Drawing.Color.OrangeRed;
-            this.label2.Location = new System.Drawing.Point(1226, 164);
+            this.label2.Location = new System.Drawing.Point(1135, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(130, 24);
             this.label2.TabIndex = 9;
@@ -412,11 +376,10 @@
             // 
             // label3
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label3.ForeColor = System.Drawing.Color.OrangeRed;
-            this.label3.Location = new System.Drawing.Point(1226, 107);
+            this.label3.Location = new System.Drawing.Point(12, 792);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(69, 20);
             this.label3.TabIndex = 10;
@@ -493,27 +456,81 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(1249, 386);
+            this.textBox1.Location = new System.Drawing.Point(87, 792);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(360, 25);
+            this.textBox1.Size = new System.Drawing.Size(249, 25);
             this.textBox1.TabIndex = 13;
-            this.textBox1.Text = "测试";
             // 
-            // textBox2
+            // label5
             // 
-            this.textBox2.Location = new System.Drawing.Point(1256, 483);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(353, 25);
-            this.textBox2.TabIndex = 15;
-            this.textBox2.Text = "测试2";
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Location = new System.Drawing.Point(52, 739);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(679, 19);
+            this.label5.TabIndex = 16;
+            this.label5.Text = "m                m               m                s               s\r\n";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("宋体", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label6.Location = new System.Drawing.Point(900, 739);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(189, 19);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "s              ppm";
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Tx";
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 150;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Ty";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 150;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Tz";
+            this.Column7.Name = "Column7";
+            this.Column7.Width = 150;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "ωx";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 180;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "ωy";
+            this.Column9.Name = "Column9";
+            this.Column9.Width = 180;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "ωz";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 180;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "m";
+            this.Column11.Name = "Column11";
+            this.Column11.Width = 160;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
-            this.ClientSize = new System.Drawing.Size(1781, 812);
-            this.Controls.Add(this.textBox2);
+            this.ClientSize = new System.Drawing.Size(1422, 840);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.dataGridView2);
@@ -545,13 +562,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridView dataGridView3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 导入区域坐标ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 计算转换7参数ToolStripMenuItem;
@@ -578,7 +588,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column18;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column19;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
     }
 }
 

@@ -17,6 +17,31 @@ namespace PingChaText0
         {
             InitializeComponent();
         }
+        //定义所需的矩阵
+        int num = 36;
+        Matrix X = new Matrix(7, 1);
+        Matrix B = new Matrix(36, 7);
+        Matrix V = new Matrix(36, 1);
+        Matrix L = new Matrix(36, 1);
+        Matrix Place = new Matrix(36, 1);
+        Matrix CGCS2000 = new Matrix(36, 1);
+        Matrix VTPV = new Matrix(2, 2);
+        Matrix XYZCon = new Matrix(18,1);
+        Matrix XYZKnown = new Matrix(18, 1);
+        Matrix B1 = new Matrix(18,7);
+
+        double[,] x = new double[7, 1];
+        double[,] b = new double[36, 7];
+        double[,] v = new double[36, 1];
+        double[,] l = new double[36, 1];
+        double[,] place = new double[36, 1];
+        double[,] cgcs = new double[36, 1];
+        double[,] xyzcon = new double[18, 1];
+        double[,] xyzknown = new double[18, 1];
+        double[,] b1 = new double[18, 7];
+        double sigma;
+
+
         //导入区域坐标数据
         private void 导入区域坐标ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -39,6 +64,7 @@ namespace PingChaText0
                 MessageBox.Show(errInfo, "温馨提示");
             } //end if
         }
+
         //导入CGCS2000坐标
         private void 导入CGCS2000坐标ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -61,6 +87,7 @@ namespace PingChaText0
                 MessageBox.Show(errInfo, "温馨提示");
             } //end if
         }
+
         //导入坐标方法
         /// <summary>
         /// 导入坐标
@@ -95,7 +122,6 @@ namespace PingChaText0
             return Ok01;
         }
 
-
         //导出转换后坐标
         private void 导出转换后坐标ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -117,7 +143,6 @@ namespace PingChaText0
             {
                 MessageBox.Show("保存出错,请检查表格中数据是否为空或有误", "温馨提示");
             }
-
 
         }
         //导出转换后坐标方法
@@ -166,32 +191,14 @@ namespace PingChaText0
         
         //计算七参数
         private void 计算转换7参数ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            int num = 36;
-            //Matrix Text = new Matrix(20, 3);
-            //double[,] text = new double[20, 3];
-            //////////////////////////////////////
-            //定义所需的矩阵
-            Matrix X = new Matrix(7, 1);            
-            Matrix B = new Matrix(num, 7);            
-            Matrix V = new Matrix(num, 1);
-            Matrix L = new Matrix(num, 1);
-            Matrix Place = new Matrix(num, 1);
-            Matrix CGCS2000 = new Matrix(num, 1);
-
-            double[,] x = new double[7, 1];
-            double[,] b = new double[num,7];           
-            double[,] v = new double[num, 1];
-            double[,] l = new double[num, 1];
-            double[,] place = new double[num, 1];
-            double[,] cgcs = new double[num, 1];
+        {            
             X.Detail = x; B.Detail = b; V.Detail = x; L.Detail = l;
             Place.Detail = place; CGCS2000.Detail = cgcs;
             //导入数据到矩阵Place,CGCS2000
-            GetDataFromDGV2(dataGridView1, place);
-            GetDataFromDGV2(dataGridView2, cgcs);
+            GetDataFromDGV2(dataGridView1, place, 12);
+            GetDataFromDGV2(dataGridView2, cgcs, 12);
             //导入数据到矩阵B
-            for (int i = 0; i < num/3; i++)
+            for (int i = 0; i < 12; i++)
             {
                 //B[0,0],[1,1],[2,2] = 0
                 b[3 * i, 0] = 1; b[3 * i + 1, 1] = 1; b[3 * i + 2, 2] = 1;
@@ -200,33 +207,70 @@ namespace PingChaText0
                 b[3 * i + 1, 3] = place[3*i+2, 0]; b[3 * i + 1, 5] = -place[3*i, 0]; b[3 * i + 1, 6] = place[3*i+1, 0];//Row1
                 b[3 * i + 2, 3] = -place[3*i+1, 0]; b[3 * i + 2, 4] = place[3*i, 0]; b[3 * i + 2, 6] = place[3*i+2, 0];//Row2
             }
+
             //计算矩阵L
-            L = MatrixOperations.MatrixSub(Place, CGCS2000);
+            L = MatrixOperations.MatrixSub(CGCS2000, Place);
             //计算转换7参数矩阵X
             X = MatrixOperations.MatrixMulti(MatrixOperations.MatrixInvByCom(MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), B)), MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), L));
-            textBox1.Text = Convert.ToString(X.Detail[3, 0]);
-            //////////////////////////////////////////
-            //GetDataFromDGV1(dataGridView1, text);
-            //GetDataFromDGV2(dataGridView1, v);
-            //MessageBox.Show(Convert.ToString(text[4, 1]));
-            //MessageBox.Show(Convert.ToString(v[4, 0]));
+            //计算改正数
+            V = MatrixOperations.MatrixSub(MatrixOperations.MatrixMulti(B, X), L);
+            //计算中误差
+            sigma = Math.Sqrt(Convert.ToDouble((MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(V), V)).Detail[0,0])/(num-7));
+            //将计算得到的中误差显示在TextBox中
+            textBox1.Text= (Convert.ToString(sigma));
 
-
-            //Matrix B = new Matrix(3, 3);
-            //Matrix E = new Matrix(3, 3);
-            //Matrix X = new Matrix(3, 3);
-            //double[,] F;
-            //double[,] C = new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-            //double[,] D = new double[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-            //B.Detail = C;
-            //E.Detail = D;
-            // X = MatrixOperations.MatrixAdd(B, E);
-
-            //textBox1.Text = ((Convert.ToString(X.Detail[2,2])));
-            //GetDataFromDGV(dataGridView1, B);
+            //导入计算得到的X矩阵到DataGridView
+            double[] x1 = new double[7];
+            for (int i = 0; i < 7; i++)
+            {
+                x1[i] = X.Detail[i, 0];                   
+            }
+            dataGridView3.Rows.Add(x1[0],x1[1],x1[2],x1[3],x1[4],x1[5],x1[6]);            
         }
-        
-        
+
+        //转换坐标
+        private void 计算转换坐标ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            XYZCon.Detail = xyzcon;
+            XYZKnown.Detail = xyzknown;
+            //导入数据到已知点矩阵
+            GetDataFromDGV3(dataGridView1, xyzknown);
+            //导入数据到矩阵Place,CGCS2000
+            GetDataFromDGV2(dataGridView1, place, 12);
+            GetDataFromDGV2(dataGridView2, cgcs, 12);
+            //导入数据到矩阵B
+            for (int i = 0; i < 12; i++)
+            {
+                //B[0,0],[1,1],[2,2] = 0
+                b[3 * i, 0] = 1; b[3 * i + 1, 1] = 1; b[3 * i + 2, 2] = 1;
+                //B矩阵中每三行循环赋值
+                b[3 * i, 4] = -place[3 * i + 2, 0]; b[3 * i, 5] = place[3 * i + 1, 0]; b[3 * i, 6] = place[3 * i, 0];//Row0
+                b[3 * i + 1, 3] = place[3 * i + 2, 0]; b[3 * i + 1, 5] = -place[3 * i, 0]; b[3 * i + 1, 6] = place[3 * i + 1, 0];//Row1
+                b[3 * i + 2, 3] = -place[3 * i + 1, 0]; b[3 * i + 2, 4] = place[3 * i, 0]; b[3 * i + 2, 6] = place[3 * i + 2, 0];//Row2
+            }
+            //计算矩阵L
+            L = MatrixOperations.MatrixSub(CGCS2000, Place);
+            //计算转换7参数矩阵X
+            X = MatrixOperations.MatrixMulti(MatrixOperations.MatrixInvByCom(MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), B)), MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), L));
+            //导入数据到B1矩阵
+            for (int i = 0; i < 6; i++)
+            {
+                //B1[0,0],[1,1],[2,2] = 0
+                b1[3 * i, 0] = 1; b1[3 * i + 1, 1] = 1; b1[3 * i + 2, 2] = 1;
+                //B1矩阵中每三行循环赋值
+                b1[3 * i, 4] = -xyzknown[3 * i + 2, 0]; b1[3 * i, 5] = xyzknown[3 * i + 1, 0]; b1[3 * i, 6] = xyzknown[3 * i, 0];//Row0
+                b1[3 * i + 1, 3] = xyzknown[3 * i + 2, 0]; b1[3 * i + 1, 5] = -xyzknown[3 * i, 0]; b1[3 * i + 1, 6] = xyzknown[3 * i + 1, 0];//Row1
+                b1[3 * i + 2, 3] = -xyzknown[3 * i + 1, 0]; b1[3 * i + 2, 4] = xyzknown[3 * i, 0]; b1[3 * i + 2, 6] = xyzknown[3 * i + 2, 0];//Row2
+            }
+            XYZCon = MatrixOperations.MatrixAdd(XYZKnown, MatrixOperations.MatrixMulti(B1, X));
+            //导入计算得到的XYZCon矩阵到DataGridView            
+            for (int i = 0; i < 6; i++)
+            {
+                dataGridView4.Rows.Add(i,XYZCon.Detail[i, 0], XYZCon.Detail[i+1, 0], XYZCon.Detail[i+2, 0]);
+            }
+        }
+
 
         //从DataGridView中获取数据方法1（X,Y,Z）循环
         /// <summary>
@@ -246,7 +290,29 @@ namespace PingChaText0
             }
             return true;
         }
-        //从DataGridView获取数据方法3（X,Y,Z）T循环(列)
+
+        
+        //从DataGridView获取数据2（T读取b行）
+        /// <summary>
+        /// 获取数据2
+        /// </summary>
+        /// <param name="DGV"></param>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        private bool GetDataFromDGV2(DataGridView DGV, double[,] array, int b)
+        {
+            int a = 0;
+            for (int i = 0; i < b ; i++)
+            {
+                for (int j = 1; j < DGV.ColumnCount; j++)
+                {
+                    array[a, 0] = Convert.ToDouble(DGV[j, i].Value);
+                    a = a + 1;                    
+                }
+            }
+            return true;
+        }
+        //从DataGridView获取数据方法3（X,Y,Z）T循环(后6列)
         /// <summary>
         /// 获取数据3
         /// </summary>
@@ -256,54 +322,17 @@ namespace PingChaText0
         private bool GetDataFromDGV3(DataGridView DGV, double[,] array)
         {
             int a = 0;
-            for (int i = 0; i < DGV.RowCount; i++)
-            {
-                for (int j = 1; j < DGV.ColumnCount; j++)
-                {                   
-                    array[a, 0] = Convert.ToDouble(DGV[j, i].Value);
-                    a = a + 1;                    
-                }
-            }
-            return true;
-        }
-        //从DataGridView获取数据2（T读取12行）
-        /// <summary>
-        /// 获取数据2
-        /// </summary>
-        /// <param name="DGV"></param>
-        /// <param name="array"></param>
-        /// <returns></returns>
-        private bool GetDataFromDGV2(DataGridView DGV, double[,] array)
-        {
-            int a = 0;
-            for (int i = 0; i < 12; i++)
+            for (int i = 12; i < 18; i++)
             {
                 for (int j = 1; j < DGV.ColumnCount; j++)
                 {
                     array[a, 0] = Convert.ToDouble(DGV[j, i].Value);
-                    a = a + 1;                    
+                    a = a + 1;
                 }
             }
             return true;
         }
-        //获取数据，读取12行（XYZ循环）
-        /// <summary>
-        /// 从DataGridView获取数据4
-        /// </summary>
-        /// <param name="DGV"></param>
-        /// <param name="array"></param>
-        /// <returns></returns>
-        private bool GetDataFromDGV4(DataGridView DGV, double[,] array)
-        {
-            for (int i = 0; i < 12; i++)
-            {
-                for (int j = 1; j < DGV.ColumnCount; j++)
-                {
-                    array[i, j - 1] = Convert.ToDouble(DGV[j, i].Value);
-                }
-            }
-            return true;
-        }
+
         /// <summary>
         /// 退出提示
         /// </summary>
@@ -319,7 +348,9 @@ namespace PingChaText0
             {
                 e.Cancel = true;
             }
-        }        
+        }
+
+        
     }
 }
 
