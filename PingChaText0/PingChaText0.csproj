@@ -74,7 +74,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Matrix01.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="MatrixOperations.cs" />
     <Compile Include="Program.cs" />

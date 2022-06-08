@@ -50,6 +50,13 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.导入区域坐标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.导入CGCS2000坐标ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,13 +81,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -222,6 +222,48 @@
             this.dataGridView3.RowTemplate.Height = 27;
             this.dataGridView3.Size = new System.Drawing.Size(1159, 77);
             this.dataGridView3.TabIndex = 4;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Tx";
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 150;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Ty";
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 150;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Tz";
+            this.Column7.Name = "Column7";
+            this.Column7.Width = 150;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "ωx";
+            this.Column8.Name = "Column8";
+            this.Column8.Width = 180;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "ωy";
+            this.Column9.Name = "Column9";
+            this.Column9.Width = 180;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "ωz";
+            this.Column10.Name = "Column10";
+            this.Column10.Width = 180;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "m";
+            this.Column11.Name = "Column11";
+            this.Column11.Width = 160;
             // 
             // menuStrip1
             // 
@@ -480,48 +522,6 @@
             this.label6.Size = new System.Drawing.Size(189, 19);
             this.label6.TabIndex = 17;
             this.label6.Text = "s              ppm";
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Tx";
-            this.Column5.Name = "Column5";
-            this.Column5.Width = 150;
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Ty";
-            this.Column6.Name = "Column6";
-            this.Column6.Width = 150;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Tz";
-            this.Column7.Name = "Column7";
-            this.Column7.Width = 150;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "ωx";
-            this.Column8.Name = "Column8";
-            this.Column8.Width = 180;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "ωy";
-            this.Column9.Name = "Column9";
-            this.Column9.Width = 180;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "ωz";
-            this.Column10.Name = "Column10";
-            this.Column10.Width = 180;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "m";
-            this.Column11.Name = "Column11";
-            this.Column11.Width = 160;
             // 
             // Form1
             // 

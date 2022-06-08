@@ -267,7 +267,7 @@ namespace PingChaText0
             //导入计算得到的XYZCon矩阵到DataGridView            
             for (int i = 0; i < 6; i++)
             {
-                dataGridView4.Rows.Add(i,XYZCon.Detail[i, 0], XYZCon.Detail[i+1, 0], XYZCon.Detail[i+2, 0]);
+                dataGridView4.Rows.Add(i+1,XYZCon.Detail[i, 0], XYZCon.Detail[i+1, 0], XYZCon.Detail[i+2, 0]);
             }
         }
 
