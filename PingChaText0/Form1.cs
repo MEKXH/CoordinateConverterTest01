@@ -232,8 +232,6 @@ namespace PingChaText0
         private void 计算转换坐标ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            XYZCon.Detail = xyzcon;
-            XYZKnown.Detail = xyzknown;
             //导入数据到已知点矩阵
             GetDataFromDGV3(dataGridView1, xyzknown);
             //导入数据到矩阵Place,CGCS2000
@@ -263,11 +261,15 @@ namespace PingChaText0
                 b1[3 * i + 1, 3] = xyzknown[3 * i + 2, 0]; b1[3 * i + 1, 5] = -xyzknown[3 * i, 0]; b1[3 * i + 1, 6] = xyzknown[3 * i + 1, 0];//Row1
                 b1[3 * i + 2, 3] = -xyzknown[3 * i + 1, 0]; b1[3 * i + 2, 4] = xyzknown[3 * i, 0]; b1[3 * i + 2, 6] = xyzknown[3 * i + 2, 0];//Row2
             }
+            B1.Detail = b1;
+            XYZCon.Detail = xyzcon;
+            XYZKnown.Detail = xyzknown;
+            //计算转换后坐标
             XYZCon = MatrixOperations.MatrixAdd(XYZKnown, MatrixOperations.MatrixMulti(B1, X));
             //导入计算得到的XYZCon矩阵到DataGridView            
             for (int i = 0; i < 6; i++)
             {
-                dataGridView4.Rows.Add(i+1,XYZCon.Detail[i, 0], XYZCon.Detail[i+1, 0], XYZCon.Detail[i+2, 0]);
+                dataGridView4.Rows.Add(i+13,Convert.ToDouble(XYZCon.Detail[3*i, 0]).ToString("0.000"), Convert.ToDouble(XYZCon.Detail[3*i+1, 0]).ToString("0.000"), Convert.ToDouble(XYZCon.Detail[3*i+2, 0]).ToString("0.000"));
             }
         }
 
