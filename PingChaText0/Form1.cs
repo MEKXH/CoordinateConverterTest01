@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PingChaText0
@@ -100,7 +94,6 @@ namespace PingChaText0
         {
             var Ok01 = true;
             var datas = File.ReadAllLines(fileName);
-            //行计数器
             var i = 0;
             //遍历数据行，显示到表格中
             foreach (var data in datas)
@@ -136,25 +129,26 @@ namespace PingChaText0
             {
                 return;
             }
-
-            var Ok02 = DataTableToTxt(dataGridView4, Sf01.FileName, ',');
-            MessageBox.Show("保存成功", "温馨提示");
+            var Ok02 = DataGridToTxt(dataGridView4, Sf01.FileName, ',');
             if (!Ok02)
             {
                 MessageBox.Show("保存出错,请检查表格中数据是否为空或有误", "温馨提示");
             }
+            else
+            MessageBox.Show("       保存成功", "温馨提示");
 
+            
         }
-        //导出转换后坐标方法
+        //导出数据方法
         //strFileName为文件名，strSplit为数据间的分隔符
         /// <summary>
-        /// 导出转换后坐标
+        /// 导出表格中数据
         /// </summary>
         /// <param name="gridview"></param>
         /// <param name="strFileName"></param>
         /// <param name="strSplit"></param>
         /// <returns></returns>
-        private static bool DataTableToTxt(DataGridView gridview, string strFileName, char strSplit)
+        private static bool DataGridToTxt(DataGridView gridview, string strFileName, char strSplit)
         {
             if (gridview == null || gridview.Rows.Count == 0)
                 return false;
@@ -195,8 +189,8 @@ namespace PingChaText0
             X.Detail = x; B.Detail = b; V.Detail = x; L.Detail = l;
             Place.Detail = place; CGCS2000.Detail = cgcs;
             //导入数据到矩阵Place,CGCS2000
-            GetDataFromDGV2(dataGridView1, place, 12);
-            GetDataFromDGV2(dataGridView2, cgcs, 12);
+            GetDataFromDGV1(dataGridView1, place, 12);
+            GetDataFromDGV1(dataGridView2, cgcs, 12);
             //导入数据到矩阵B
             for (int i = 0; i < 12; i++)
             {
@@ -215,9 +209,16 @@ namespace PingChaText0
             //计算改正数
             V = MatrixOperations.MatrixSub(MatrixOperations.MatrixMulti(B, X), L);
             //计算中误差
+            double n = 0, zwc = 0;
+            for (int i = 0; i < 12; i++)
+            {
+                n = n + (V.Detail[i, 0] * V.Detail[i, 0]);
+            }
+            zwc = Math.Sqrt(n / 12);
+            textBox2.Text = (Convert.ToString(zwc));
+            //计算验后单位权中误差并显示
             sigma = Math.Sqrt(Convert.ToDouble((MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(V), V)).Detail[0,0])/(num-7));
-            //将计算得到的中误差显示在TextBox中
-            textBox1.Text= (Convert.ToString(sigma));
+            textBox1.Text = (Convert.ToString(sigma));
 
             //导入计算得到的X矩阵到DataGridView
             double[] x1 = new double[7];
@@ -233,10 +234,10 @@ namespace PingChaText0
         {
 
             //导入数据到已知点矩阵
-            GetDataFromDGV3(dataGridView1, xyzknown);
+            GetDataFromDGV2(dataGridView1, xyzknown);
             //导入数据到矩阵Place,CGCS2000
-            GetDataFromDGV2(dataGridView1, place, 12);
-            GetDataFromDGV2(dataGridView2, cgcs, 12);
+            GetDataFromDGV1(dataGridView1, place, 12);
+            GetDataFromDGV1(dataGridView2, cgcs, 12);
             //导入数据到矩阵B
             for (int i = 0; i < 12; i++)
             {
@@ -273,35 +274,15 @@ namespace PingChaText0
             }
         }
 
-
-        //从DataGridView中获取数据方法1（X,Y,Z）循环
-        /// <summary>
-        /// 从DataGridView中获取数据
-        /// </summary>
-        /// <param name="DGV"></param>
-        /// <param name="errInfo"></param>
-        /// <returns></returns>
-        private bool GetDataFromDGV1(DataGridView DGV, double[,] array)
-        {
-            for (int i = 0; i < DGV.RowCount; i++)
-            {
-                for (int j = 1; j < DGV.ColumnCount; j++)
-                {
-                    array[i,j-1] = Convert.ToDouble(DGV[j, i].Value);                                   
-                }
-            }
-            return true;
-        }
-
         
-        //从DataGridView获取数据2（T读取b行）
+        //从DataGridView获取数据1（T读取b行）
         /// <summary>
-        /// 获取数据2
+        /// 获取数据1
         /// </summary>
         /// <param name="DGV"></param>
         /// <param name="array"></param>
         /// <returns></returns>
-        private bool GetDataFromDGV2(DataGridView DGV, double[,] array, int b)
+        private bool GetDataFromDGV1(DataGridView DGV, double[,] array, int b)
         {
             int a = 0;
             for (int i = 0; i < b ; i++)
@@ -314,14 +295,14 @@ namespace PingChaText0
             }
             return true;
         }
-        //从DataGridView获取数据方法3（X,Y,Z）T循环(后6列)
+        //从DataGridView获取数据方法2（X,Y,Z）T循环(后6列)
         /// <summary>
-        /// 获取数据3
+        /// 获取数据2
         /// </summary>
         /// <param name="DGV"></param>
         /// <param name="array"></param>
         /// <returns></returns>
-        private bool GetDataFromDGV3(DataGridView DGV, double[,] array)
+        private bool GetDataFromDGV2(DataGridView DGV, double[,] array)
         {
             int a = 0;
             for (int i = 12; i < 18; i++)
@@ -350,9 +331,7 @@ namespace PingChaText0
             {
                 e.Cancel = true;
             }
-        }
-
-        
+        }       
     }
 }
 
