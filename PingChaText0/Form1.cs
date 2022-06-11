@@ -20,9 +20,10 @@ namespace PingChaText0
         Matrix Place = new Matrix(36, 1);
         Matrix CGCS2000 = new Matrix(36, 1);
         Matrix VTPV = new Matrix(2, 2);
-        Matrix XYZCon = new Matrix(18,1);
+        Matrix XYZCon = new Matrix(18, 1);
         Matrix XYZKnown = new Matrix(18, 1);
-        Matrix B1 = new Matrix(18,7);
+        Matrix B1 = new Matrix(18, 7);
+        Matrix NBB_1 = new Matrix(7, 7);
 
         double[,] x = new double[7, 1];
         double[,] b = new double[36, 7];
@@ -34,6 +35,7 @@ namespace PingChaText0
         double[,] xyzknown = new double[18, 1];
         double[,] b1 = new double[18, 7];
         double sigma;
+        double[] nbb_1 = new double[7];
 
 
         //导入区域坐标数据
@@ -135,9 +137,9 @@ namespace PingChaText0
                 MessageBox.Show("保存出错,请检查表格中数据是否为空或有误", "温馨提示");
             }
             else
-            MessageBox.Show("       保存成功", "温馨提示");
+                MessageBox.Show("       保存成功", "温馨提示");
 
-            
+
         }
         //导出数据方法
         //strFileName为文件名，strSplit为数据间的分隔符
@@ -182,12 +184,11 @@ namespace PingChaText0
             }
             return true;
         }
-        
+
         //计算七参数
         private void 计算转换7参数ToolStripMenuItem_Click(object sender, EventArgs e)
-        {            
-            X.Detail = x; B.Detail = b; V.Detail = x; L.Detail = l;
-            Place.Detail = place; CGCS2000.Detail = cgcs;
+        {
+
             //导入数据到矩阵Place,CGCS2000
             GetDataFromDGV1(dataGridView1, place, 12);
             GetDataFromDGV1(dataGridView2, cgcs, 12);
@@ -197,40 +198,49 @@ namespace PingChaText0
                 //B[0,0],[1,1],[2,2] = 0
                 b[3 * i, 0] = 1; b[3 * i + 1, 1] = 1; b[3 * i + 2, 2] = 1;
                 //B矩阵中每三行循环赋值
-                b[3 * i, 4] = -place[3*i+2, 0]; b[3 * i, 5] = place[3*i+1, 0]; b[3 * i, 6] = place[3*i, 0];//Row0
-                b[3 * i + 1, 3] = place[3*i+2, 0]; b[3 * i + 1, 5] = -place[3*i, 0]; b[3 * i + 1, 6] = place[3*i+1, 0];//Row1
-                b[3 * i + 2, 3] = -place[3*i+1, 0]; b[3 * i + 2, 4] = place[3*i, 0]; b[3 * i + 2, 6] = place[3*i+2, 0];//Row2
+                b[3 * i, 4] = -place[3 * i + 2, 0]; b[3 * i, 5] = place[3 * i + 1, 0]; b[3 * i, 6] = place[3 * i, 0];//Row0
+                b[3 * i + 1, 3] = place[3 * i + 2, 0]; b[3 * i + 1, 5] = -place[3 * i, 0]; b[3 * i + 1, 6] = place[3 * i + 1, 0];//Row1
+                b[3 * i + 2, 3] = -place[3 * i + 1, 0]; b[3 * i + 2, 4] = place[3 * i, 0]; b[3 * i + 2, 6] = place[3 * i + 2, 0];//Row2
             }
 
+            X.Detail = x; B.Detail = b; V.Detail = v; L.Detail = l;
+            Place.Detail = place; CGCS2000.Detail = cgcs;
             //计算矩阵L
             L = MatrixOperations.MatrixSub(CGCS2000, Place);
+            //计算NBB的逆
+            NBB_1 = MatrixOperations.MatrixInvByCom(MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), B));
             //计算转换7参数矩阵X
-            X = MatrixOperations.MatrixMulti(MatrixOperations.MatrixInvByCom(MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), B)), MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), L));
+            X = MatrixOperations.MatrixMulti(NBB_1, MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), L));
             //计算改正数
             V = MatrixOperations.MatrixSub(MatrixOperations.MatrixMulti(B, X), L);
-            //计算中误差
-            double n = 0, zwc = 0;
-            for (int i = 0; i < 12; i++)
-            {
-                n = n + (V.Detail[i, 0] * V.Detail[i, 0]);
-            }
-            zwc = Math.Sqrt(n / 12);
-            textBox2.Text = (Convert.ToString(zwc));
             //计算验后单位权中误差并显示
-            sigma = Math.Sqrt(Convert.ToDouble((MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(V), V)).Detail[0,0])/(num-7));
+            sigma = Math.Sqrt(Convert.ToDouble((MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(V), V)).Detail[0, 0]) / (num - 7));
             textBox1.Text = (Convert.ToString(sigma));
 
-            //导入计算得到的X矩阵到DataGridView
+
+
+
+            //导入计算得到的X矩阵(7参数)到DataGridView
             double[] x1 = new double[7];
             for (int i = 0; i < 7; i++)
             {
-                x1[i] = X.Detail[i, 0];                   
+                x1[i] = X.Detail[i, 0];
             }
-            dataGridView3.Rows.Add(x1[0],x1[1],x1[2],x1[3],x1[4],x1[5],x1[6]);            
+            dataGridView3.Rows.Add(x1[0], x1[1], x1[2], x1[3], x1[4], x1[5], x1[6]);
+            //计算中误差
+            double n = 0, zwc = 0;
+            for (int i = 0; i < 7; i++)
+            {
+                n =Math.Sqrt(NBB_1.Detail[i, i] )* sigma;
+                nbb_1[i] = n; 
+                
+            }
+            dataGridView3.Rows.Add(nbb_1[0], nbb_1[1], nbb_1[2], nbb_1[3], nbb_1[4], nbb_1[5], nbb_1[6]);
         }
+        
 
-        //转换坐标
-        private void 计算转换坐标ToolStripMenuItem_Click(object sender, EventArgs e)
+    //转换坐标
+    private void 计算转换坐标ToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
             //导入数据到已知点矩阵
@@ -250,8 +260,10 @@ namespace PingChaText0
             }
             //计算矩阵L
             L = MatrixOperations.MatrixSub(CGCS2000, Place);
+            //计算NBB的逆
+            NBB_1 = MatrixOperations.MatrixInvByCom(MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), B));
             //计算转换7参数矩阵X
-            X = MatrixOperations.MatrixMulti(MatrixOperations.MatrixInvByCom(MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), B)), MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), L));
+            X = MatrixOperations.MatrixMulti(NBB_1, MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), L));
             //导入数据到B1矩阵
             for (int i = 0; i < 6; i++)
             {
