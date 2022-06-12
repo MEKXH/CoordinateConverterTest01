@@ -202,13 +202,23 @@ namespace PingChaText0
                 b[3 * i + 1, 3] = place[3 * i + 2, 0]; b[3 * i + 1, 5] = -place[3 * i, 0]; b[3 * i + 1, 6] = place[3 * i + 1, 0];//Row1
                 b[3 * i + 2, 3] = -place[3 * i + 1, 0]; b[3 * i + 2, 4] = place[3 * i, 0]; b[3 * i + 2, 6] = place[3 * i + 2, 0];//Row2
             }
-
+            //输出B矩阵
+            //for (int i = 0; i < 36; i++)
+            //{
+            //    dataGridView5.Rows.Add(B.Detail[i, 0], B.Detail[i, 1], B.Detail[i, 2], B.Detail[i, 3], B.Detail[i, 4], B.Detail[i, 5], B.Detail[i, 6]);
+            //}
             X.Detail = x; B.Detail = b; V.Detail = v; L.Detail = l;
             Place.Detail = place; CGCS2000.Detail = cgcs;
             //计算矩阵L
             L = MatrixOperations.MatrixSub(CGCS2000, Place);
             //计算NBB的逆
             NBB_1 = MatrixOperations.MatrixInvByCom(MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), B));
+            //显示NBB的逆
+            //for (int i = 0; i < 7; i++)
+            //{
+            //    dataGridView5.Rows.Add(NBB_1.Detail[i, 0], NBB_1.Detail[i, 1], NBB_1.Detail[i, 2], NBB_1.Detail[i, 3], NBB_1.Detail[i, 4], NBB_1.Detail[i, 5], NBB_1.Detail[i, 6]);
+            //}
+            //显示中误差
             //计算转换7参数矩阵X
             X = MatrixOperations.MatrixMulti(NBB_1, MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(B), L));
             //计算改正数
@@ -216,10 +226,6 @@ namespace PingChaText0
             //计算验后单位权中误差并显示
             sigma = Math.Sqrt(Convert.ToDouble((MatrixOperations.MatrixMulti(MatrixOperations.MatrixTrans(V), V)).Detail[0, 0]) / (num - 7));
             textBox1.Text = (Convert.ToString(sigma));
-
-
-
-
             //导入计算得到的X矩阵(7参数)到DataGridView
             double[] x1 = new double[7];
             for (int i = 0; i < 7; i++)
@@ -228,13 +234,14 @@ namespace PingChaText0
             }
             dataGridView3.Rows.Add(x1[0], x1[1], x1[2], x1[3], x1[4], x1[5], x1[6]);
             //计算中误差
-            double n = 0, zwc = 0;
+            double n = 0;
             for (int i = 0; i < 7; i++)
             {
                 n =Math.Sqrt(NBB_1.Detail[i, i] )* sigma;
                 nbb_1[i] = n; 
                 
             }
+            
             dataGridView3.Rows.Add(nbb_1[0], nbb_1[1], nbb_1[2], nbb_1[3], nbb_1[4], nbb_1[5], nbb_1[6]);
         }
         
